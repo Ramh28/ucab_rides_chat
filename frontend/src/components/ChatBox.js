@@ -8,6 +8,7 @@ const ChatBox = () => {
     const { user, chats, setChats } = ChatState();
 
     const toast = useToast();
+    
     return ( 
     <div> My chats </div> 
     )
