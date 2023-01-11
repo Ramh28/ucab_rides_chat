@@ -6,10 +6,19 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+const cors = require('cors');
+const chats = require("./data/data");
 
 dotenv.config();
 connectDB();
 const app = express();
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 app.use(express.json()); // to accept json data
 
@@ -21,7 +30,9 @@ app.use(express.json()); // to accept json data
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
-
+app.use("/api/chats", (req, res) => {
+  res.send(chats);
+});
 // --------------------------deployment------------------------------
 
 const __dirname1 = path.resolve();
@@ -50,11 +61,11 @@ app.get('/api/chat', (req, res) => {
 });
 >>>>>>> rafael
 
-const PORT = process.env.PORT;
+const PORT = 8080;
 
 const server = app.listen(
   PORT,
-  console.log(`Server running on PORT ${PORT}...`)
+  console.log(`Server running on PORT ${8080}...`)
 );
 
 const io = require("socket.io")(server, {
