@@ -13,7 +13,6 @@ const app = express();
 
 app.use(express.json()); // to accept json data
 
-<<<<<<< HEAD
 // app.get("/", (req, res) => {
 //   res.send("API Running!");
 // });
@@ -43,12 +42,6 @@ if (process.env.NODE_ENV === "production") {
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
-=======
-app.get('/api/chat', (req, res) => {
-    console.log("chats enviados")
-    res.send(chats);
-});
->>>>>>> rafael
 
 const PORT = process.env.PORT;
 
@@ -65,7 +58,6 @@ const io = require("socket.io")(server, {
   },
 });
 
-<<<<<<< HEAD
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
   socket.on("setup", (userData) => {
@@ -97,6 +89,3 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
   });
 });
-=======
-app.listen(5000, console.log('Server is running on port 5000'));
->>>>>>> rafael
