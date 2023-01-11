@@ -5,18 +5,18 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    pic: { type: String, default: '' },
+    pic: { type: String, default: 'yo.jpg' },
 
     chats: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Chat',
     }],
 
-    isAdmin: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
+    // isAdmin: {
+    //     type: Boolean,
+    //     required: true,
+    //     default: false,
+    // },
 },
 {
     timestamps: true,
@@ -24,9 +24,10 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
-  };
+};
   
-  userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
+    
     if (!this.isModified) {
       next();
     }
