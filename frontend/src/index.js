@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ChatProvider from './context/chatProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <ChatProvider>
     <BrowserRouter>
