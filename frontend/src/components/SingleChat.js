@@ -51,9 +51,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/${selectedChat._id}`,
+        `http://localhost:8080/api/message/${selectedChat._id}`,
         config
       );
+      console.log(messages)
       setMessages(data);
       setLoading(false);
 
@@ -82,7 +83,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "/api/message",
+          "http://localhost:8080/api/message",
           {
             content: newMessage,
             chatId: selectedChat,
@@ -91,6 +92,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        console.log(data)
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -105,41 +107,41 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
-    socket = io('http://localhost:3000');
-    // socket.emit("setup", user);
-    //socket.on("connected", () => setSocketConnected(true));
+    socket = io('http://localhost:8080');
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
     console.log(socket);
-    // socket.on("typing", () => setIsTyping(true));
-    // socket.on("stop typing", () => setIsTyping(false));
+    console.log(socketConnected)
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
 
     // eslint-disable-next-line
   }, []);
 
-//   useEffect(() => {
-//     fetchMessages();
-
-//     selectedChatCompare = selectedChat;
-//     // eslint-disable-next-line
-//   }, [selectedChat]);
+  useEffect(() => {
+    fetchMessages();
+    selectedChatCompare = selectedChat;
+    // eslint-disable-next-line
+  }, [selectedChat]);
 
   useEffect(() => {
-    // socket.on("message recieved", (newMessageRecieved) => {
-    //   if (
-    //     !selectedChatCompare || // if chat is not selected or doesn't match current chat
-    //     selectedChatCompare._id !== newMessageRecieved.chat._id
-    //   ) {
-    //     if (!notification.includes(newMessageRecieved)) {
-    //       setNotification([newMessageRecieved, ...notification]);
-    //       setFetchAgain(!fetchAgain);
-    //     }
-    //   } else {
-    //     setMessages([...messages, newMessageRecieved]);
-    //   }
-    // });
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
   });
 
   const typingHandler = (e) => {
-    // setNewMessage(e.target.value);
+    setNewMessage(e.target.value);
 
     // if (!socketConnected) return;
 

@@ -81,6 +81,7 @@ function SideDrawer() {
 
       setLoading(false);
       setSearchResult(data);
+      console.log(searchResult);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -207,11 +208,11 @@ function SideDrawer() {
             {loading ? (
               <ChatLoading />
             ) : (
-              searchResult?.map((user) => (
+              searchResult?.map((result) => (
                 <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
+                  key={result._id}
+                  result={result}
+                  handleFunction={() => accessChat(result._id)}
                 />
               ))
             )}
