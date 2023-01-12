@@ -1,35 +1,27 @@
-import { Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/layout";
+import { useState } from "react";
+import Chatbox from "../components/ChatBox";
+import MyChats from "../components/MyChats";
+import SideDrawer from "../components/miscellaneous/SideDrawer";
 import { ChatState } from "../context/chatProvider";
-import ChatBox from "../components/ChatBox";
-import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
 
-const ChatPage = () => {
-
-  const history = useHistory();
-
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-    if (!userInfo) {
-      history.push("/Chat")
-    }
-  }, [History]);
-
+const Chatpage = () => {
+  const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
 
+  console.log(user);
+
   return (
-    <div style = {{width : '100%' }}>
-      <Box
-        justifyContent={"center"}
-        alignItems={"center"}
-        backgroundColor={"#F5F5F5"}
-        height={"85%"}
-        width={"100%"}
-      >
-      </Box>      
+    <div style={{ width: "100%" }}>
+      {user && <SideDrawer />}
+      {/* <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px">
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
+      </Box> */}
     </div>
   );
 };
 
-export default ChatPage;
+export default Chatpage;

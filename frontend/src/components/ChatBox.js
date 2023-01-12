@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { ChatState } from '../context/chatProvider';
-import { useToast } from '@chakra-ui/react';
-import { Card, CardBody, Text } from '@chakra-ui/react';
+import { Box } from "@chakra-ui/layout";
+import "./styles.css";
+import SingleChat from "./SingleChat";
+import { ChatState } from "../context/chatProvider";
 
+const Chatbox = ({ fetchAgain, setFetchAgain }) => {
+  const { selectedChat } = ChatState();
 
-const ChatBox = () => {
-
-   /* const { loggedUser, setLoggedUser } = useState();
-
-    const { user, chats, setChats } = ChatState();
-
-    //const toast = useToast();
-    */
-
-    return ( 
-    <div> CHAT BOX </div> 
-    );
+  return (
+    <Box
+      display={{ base: selectedChat ? "flex" : "none", md: "flex" }}
+      alignItems="center"
+      flexDir="column"
+      p={3}
+      bg="white"
+      w={{ base: "100%", md: "68%" }}
+      borderRadius="lg"
+      borderWidth="1px"
+    >
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+    </Box>
+  );
 };
 
-export default ChatBox;
+export default Chatbox;
